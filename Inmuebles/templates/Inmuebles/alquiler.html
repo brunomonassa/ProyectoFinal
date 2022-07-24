@@ -1,0 +1,29 @@
+{% extends "Inmuebles/padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+<h1>Alquilá tu inmueble</h1>
+<h3>Cargá los datos</h3>
+
+{% if form.errors %}
+
+<p style="color:red;"> Estan mal los datos</p>
+
+{% endif %}
+
+<form action="" method="POST" > {% csrf_token %}
+
+    <table>
+
+        {{ form.as_table }}
+
+    </table>
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+
+{% endblock %}

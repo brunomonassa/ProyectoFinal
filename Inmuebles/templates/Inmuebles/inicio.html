@@ -1,0 +1,48 @@
+{% extends "Inmuebles/padre.html" %}
+
+{% load static %}
+
+{% block contenidoQueCambia %}
+
+    <h1 style="color: rgb(156, 36, 14);">{{mensaje}}</h1>
+
+    {% if request.user.is_authenticated %}
+    <p align="right"><button><a href="{% url 'Logout' %}">Salir de sesión</a></button></p>
+    {% endif %}
+
+    <h1>Buscá tu inmueble</h1>
+
+    <form action="/Inmuebles/busqueda" method="GET">
+
+        <input type="text" name="ubicacion" id="ubicacion">
+        <input type="submit" value="Buscar">
+
+    </form>
+
+    {% if ventas %}
+
+    <p>Estamos buscando: {{ubicacion}}</p>
+
+    <ul>
+        
+    {% for venta in ventas %}
+        <li>{{venta.ubicacion}}</li>
+        <li>{{venta.direccion}}</li>
+        <li>{{venta.precio}}</li>
+        <li>{{venta.habitaciones}}</li>
+    {% endfor %}
+
+    </ul>
+
+    {% endif %}
+
+    <p style="color:brown;">{{respuesta}}</p>
+
+    <br>
+    <br>
+    <h1> O consultá la lista:</h1>
+    <button><a href="{% url 'List' %}">Inmuebles en venta</a></button>
+    <button><a href="{% url 'List' %}">Inmuebles en alquiler</a></button>
+
+
+{% endblock %}
