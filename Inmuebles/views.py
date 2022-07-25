@@ -38,14 +38,16 @@ def venta(request):
             venta = Venta (ubicacion=info['ubicacion'], direccion=info['direccion'], precio=info['precio'], habitaciones=info['habitaciones'])
 
             venta.save()
+            avatares = Avatar.objects.filter(user=request.user.id)
 
-            return render(request, "Inmuebles/inicio.html")
+            return render(request, "Inmuebles/inicio.html", {"url":avatares[0].imagen.url})
 
     else:
 
         form = VentaForm()
+        avatares = Avatar.objects.filter(user=request.user.id)
 
-    return render(request, "Inmuebles/venta.html", {"form":form})
+    return render(request, "Inmuebles/venta.html", {"form":form , "url":avatares[0].imagen.url})
 
 @login_required
 def alquiler(request):
@@ -67,8 +69,9 @@ def alquiler(request):
     else:
 
         form = AlquilerForm()
+        avatares = Avatar.objects.filter(user=request.user.id)
 
-    return render(request, "Inmuebles/alquiler.html", {"form":form})
+    return render(request, "Inmuebles/alquiler.html", {"form":form , "url":avatares[0].imagen.url})
 
 def about(request):
 
@@ -121,7 +124,6 @@ class VentaDelete(DeleteView):
     model = Venta
     success_url = "/Inmuebles/venta/list"
 
-
 def login_request(request):
 
     if request.method == "POST":
@@ -135,8 +137,9 @@ def login_request(request):
 
             if user is not None:
                 login(request, user)
+                avatares = Avatar.objects.filter(user=request.user.id)
 
-                return render(request, "Inmuebles/inicio.html", {"mensaje": f"Bienvenido {usuario}"})
+                return render(request, "Inmuebles/inicio.html", {"url":avatares[0].imagen.url ,"mensaje": f"Bienvenido {usuario}"})
             
             else: 
 
@@ -184,12 +187,14 @@ def editarPerfil(request):
             usuario.password1 = info['password1']
             usuario.password2 = info['password2']
             usuario.save()
+            avatares = Avatar.objects.filter(user=request.user.id)
 
-            return render(request, "Inmuebles/inicio.html")
+            return render(request, "Inmuebles/inicio.html", {"url":avatares[0].imagen.url})
 
     else:
 
         form= UserEditForm(initial={'email':usuario.email})
+        avatares = Avatar.objects.filter(user=request.user.id)
 
-    return render(request, "Inmuebles/editarPerfil.html", {"form":form, "usuario":usuario})
+    return render(request, "Inmuebles/editarPerfil.html", {"form":form, "usuario":usuario , "url":avatares[0].imagen.url})
 
